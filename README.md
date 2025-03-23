@@ -2,6 +2,7 @@
 
 ## Overview
 This project is a web-based application that extracts news articles related to a given company, performs sentiment analysis, conducts comparative analysis, and generates a Hindi text-to-speech (TTS) output. The application allows users to enter a company name and receive a structured sentiment report with an audio summary.
+
 ## Features
 - **News Extraction:** Fetches and displays the title, summary, and metadata of at least 10 news articles related to the input company using web scraping.
 - **Sentiment Analysis:** Determines the sentiment (Positive, Negative, or Neutral) of each article using NLP techniques.
@@ -40,7 +41,8 @@ streamlit run app.py
 
 ### 2. Generate Text-to-Speech (TTS)
 **Endpoint:**
-- **Live App:** [Hugging Face Deployment]https://huggingface.co/spaces/BussaHaritha/news-summarization-tts/tree/main)
+- **Live App:** [Hugging Face Deployment](https://huggingface.co/spaces/BussaHaritha/news-summarization-tts)
+
 
 ```
 GET /generate_tts?text=<summary_text>
