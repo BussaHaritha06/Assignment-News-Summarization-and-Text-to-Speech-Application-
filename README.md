@@ -39,28 +39,10 @@ python api.py
 streamlit run app.py
 ```
 
-## API Endpoints
-### 1. Fetch News Articles
-**Endpoint:**
-```
-GET /fetch_news?company=<company_name>
-```
-**Response Example:**
-```json
-{
-  "articles": [
-    {
-      "title": "Tesla's New Model Breaks Sales Records",
-      "summary": "Tesla's latest EV sees record sales in Q3...",
-      "sentiment": "Positive",
-      "topics": ["Electric Vehicles", "Stock Market"]
-    }
-  ]
-}
-```
-
 ### 2. Generate Text-to-Speech (TTS)
 **Endpoint:**
+- **Live App:** [Hugging Face Deployment]https://huggingface.co/spaces/BussaHaritha/news-summarization-tts/tree/main)
+
 ```
 GET /generate_tts?text=<summary_text>
 ```
