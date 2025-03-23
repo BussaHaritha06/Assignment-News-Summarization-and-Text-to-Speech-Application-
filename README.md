@@ -69,7 +69,6 @@ GET /generate_tts?text=<summary_text>
 
 ## Deployment Guide
 The application is deployed on **Hugging Face Spaces**:
-- **Live App:** [Deployment Link](#)
 - **Steps to Deploy on Hugging Face Spaces:**
   1. Create a new Space on Hugging Face.
   2. Choose **Streamlit** as the SDK.
