@@ -1,75 +1,105 @@
 # Assignment-News-Summarization-and-Text-to-Speech-Application-
-import requests
-from bs4 import BeautifulSoup
-from flask import Flask, request, jsonify
-from gtts import gTTS
-import nltk
-from nltk.sentiment import SentimentIntensityAnalyzer
-import spacy
-import streamlit as st
+Overview
 
-nltk.download("vader_lexicon")
-sia = SentimentIntensityAnalyzer()
-nlp = spacy.load("en_core_web_sm")
+This project is a web-based application that extracts news articles related to a given company, performs sentiment analysis, conducts comparative analysis, and generates a Hindi text-to-speech (TTS) output. The application allows users to enter a company name and receive a structured sentiment report with an audio summary.
 
-app = Flask(__name__)
+Features
 
-def fetch_news(company_name):
-    search_url = f"https://news.google.com/search?q={company_name}&hl=en"
-    headers = {"User-Agent": "Mozilla/5.0"}
-    response = requests.get(search_url, headers=headers)
-    soup = BeautifulSoup(response.text, "html.parser")
-    
-    articles = []
-    for item in soup.find_all("article")[:10]:
-        title = item.find("h3").text if item.find("h3") else "No Title"
-        link = item.find("a")["href"] if item.find("a") else "#"
-        summary = item.find("p").text if item.find("p") else "No Summary"
-        articles.append({"title": title, "summary": summary, "link": link})
-    
-    return articles
+News Extraction: Fetches and displays the title, summary, and metadata of at least 10 news articles related to the input company.
 
-def analyze_sentiment(text):
-    score = sia.polarity_scores(text)["compound"]
-    return "Positive" if score > 0.05 else "Negative" if score < -0.05 else "Neutral"
+Sentiment Analysis: Determines the sentiment (Positive, Negative, or Neutral) of each article.
 
-def extract_topics(text):
-    doc = nlp(text)
-    return [token.text for token in doc.ents]
+Comparative Analysis: Compares sentiment distribution across articles to highlight differences in news coverage.
 
-def generate_tts(text, filename="output.mp3"):
-    tts = gTTS(text=text, lang="hi")
-    tts.save(filename)
-    return filename
+Topic Extraction: Identifies key topics mentioned in the articles.
 
-@app.route("/fetch_news", methods=["GET"])
-def get_news():
-    company = request.args.get("company")
-    articles = fetch_news(company)
-    
-    for article in articles:
-        article["sentiment"] = analyze_sentiment(article["summary"])
-        article["topics"] = extract_topics(article["summary"])
-    
-    return jsonify(articles)
+Text-to-Speech (TTS): Converts the summarized sentiment report into Hindi speech.
 
-if __name__ == "__main__":
-    app.run(debug=True)
+User Interface: A simple web-based interface using Streamlit.
 
-# Streamlit Web Interface
-st.title("📢 News Summarization & Sentiment Analysis")
-company_name = st.text_input("Enter Company Name")
+API Support: Backend communication is handled via APIs.
 
-if st.button("Analyze News"):
-    response = requests.get(f"http://127.0.0.1:5000/fetch_news?company={company_name}")
-    news_data = response.json()
+Deployment: Hosted on Hugging Face Spaces.
 
-    for article in news_data:
-        st.subheader(article["title"])
-        st.write(article["summary"])
-        st.write(f"🗞 Sentiment: {article['sentiment']}")
-        st.write(f"📌 Topics: {', '.join(article['topics'])}")
-        
-        if st.button(f"🔊 Listen (Hindi) - {article['title']}", key=article["title"]):
-            tts_file = generate_tts(article["summary"])
-            st.audio(tts_file)
+Tech Stack
+
+Backend: Flask, BeautifulSoup, NLTK, spaCy, gTTS
+
+Frontend: Streamlit
+
+Deployment: Hugging Face Spaces
+
+Installation
+
+Clone the repository:
+
+git clone <repo-link>
+cd news-summarization-tts
+
+Create and activate a virtual environment:
+
+python -m venv env
+source env/bin/activate  # On Windows use: env\Scripts\activate
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+Run the Flask API:
+
+python app.py
+
+Start the Streamlit application:
+
+streamlit run app.py
+
+API Endpoints
+
+1. Fetch News Articles
+
+Endpoint:
+
+GET /fetch_news?company=<company_name>
+
+Response:
+
+{
+  "title": "Tesla's New Model Breaks Sales Records",
+  "summary": "Tesla's latest EV sees record sales in Q3...",
+  "sentiment": "Positive",
+  "topics": ["Electric Vehicles", "Stock Market"]
+}
+
+Deployment
+
+The application is deployed on Hugging Face Spaces: Deployment Link
+
+Usage Guide
+
+Open the deployed Streamlit application.
+
+Enter a company name in the input field.
+
+Click Analyze News to fetch and analyze news articles.
+
+View the sentiment summary and topic analysis.
+
+Click the Listen (Hindi) button to hear the audio summary.
+
+Assumptions & Limitations
+
+Only non-JS-based web pages can be scraped.
+
+News extraction depends on Google News availability.
+
+Sentiment analysis is based on VADER, which may not work perfectly for all contexts.
+
+Acknowledgment
+
+Project developed as part of upGrad coursework.
+
+Contributors
+
+Bussa Haritha
+
+
