@@ -41,9 +41,7 @@ streamlit run app.py
 
 ### 2. Generate Text-to-Speech (TTS)
 **Endpoint:**
-- **Live App:** [Hugging Face Deployment](https://huggingface.co/spaces/BussaHaritha/news-summarization-tts)
-
-
+- **Live App:** [Hugging Face Deployment](https://huggingface.co/spaces/BussaHaritha/news-summarization-tts/tree/main)
 ```
 GET /generate_tts?text=<summary_text>
 ```
